@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter_hi_cache/flutter_hi_cache.dart';
 import 'package:http/http.dart' as http;
 import 'package:trip_flutter/dao/header_util.dart';
+import 'package:trip_flutter/util/navigator_util.dart';
 
 /// 登录接口
 
@@ -33,6 +34,12 @@ class LoginDao {
     } else {
       throw Exception('Failed to load login');
     }
+  }
+  static logout() {
+    // 删除登录令牌
+    HiCache.getInstance().remove(boardingPass);
+    // 路由跳转
+    NavigatorUtil.goLoginPage();
   }
 
   static void _saveToken(result) {

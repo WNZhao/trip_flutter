@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:trip_flutter/dao/login_dao.dart';
+import 'package:trip_flutter/util/navigator_util.dart';
 import 'package:trip_flutter/util/view_util.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
@@ -26,6 +27,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [..._background(),_content()],
       ),
@@ -61,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
             _checkInput();
           }),
           hiSpace(height: 45),
-          LoginButton("登录", enable: loginEnabled, onPressed: _login),
+          LoginButton("登录", enable: loginEnabled, onPressed: ()=>_login(context)),
           hiSpace(height: 15),
           Align(
             alignment: Alignment.centerRight,
@@ -86,10 +88,11 @@ class _LoginPageState extends State<LoginPage> {
   }
 
  // 执行登录操作
-  void _login() async {
+  void _login(context) async {
    try {
      var result = await LoginDao.login(username: username!, password: password!);
-     print('=======================result: $result');
+     print('登录成功: $result');
+     NavigatorUtil.goHomePage(context);
 
    } catch (e) {
      print('=======================e: $e');
