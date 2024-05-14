@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hi_cache/flutter_hi_cache.dart';
 import 'package:trip_flutter/dao/login_dao.dart';
+import 'package:trip_flutter/navigator/tab_navigator.dart';
 import 'package:trip_flutter/pages/home_page.dart';
 import 'package:trip_flutter/pages/login_page.dart';
+import 'package:trip_flutter/util/screen_adapter_helper.dart';
 
 void main() {
   runApp(const MyApp());
@@ -24,11 +26,13 @@ class MyApp extends StatelessWidget {
       home: FutureBuilder<dynamic>(
         future: HiCache.preInit(),
         builder: (BuildContext context,AsyncSnapshot<dynamic> snapshot) {
+          // 初始化屏幕适配工具
+          ScreenHelper.init(context);
           if (snapshot.connectionState == ConnectionState.done) {
             if(LoginDao.getToken()==null){
               return const LoginPage();
             }else {
-              return const HomePage();
+              return const TabNavigator();//HomePage();
             }
           }
           return Scaffold(body: Center(child: CircularProgressIndicator(),));
