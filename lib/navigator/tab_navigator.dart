@@ -29,7 +29,7 @@ class _TabNavigatorState extends State<TabNavigator> {
       body: PageView(
         controller: _controller,
         physics: const NeverScrollableScrollPhysics(),
-        children: const [ HomePage(),SearchPage(),TravelPage(),MyPage()],
+        children: const [ HomePage(),SearchPage(hideLeft: true,),TravelPage(),MyPage()],
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,

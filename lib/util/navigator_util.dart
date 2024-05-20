@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:trip_flutter/navigator/tab_navigator.dart';
 import 'package:trip_flutter/pages/login_page.dart';
 
 import '../pages/home_page.dart';
@@ -26,15 +27,18 @@ class NavigatorUtil {
   }
 
   static void pop(BuildContext context) {
-    Navigator.pop(context);
+    if(Navigator.canPop(context)) {
+      Navigator.pop(context);
+    }
   }
 
   // 跳转到首页 不需要返回上一页
   static void goHomePage(BuildContext context) {
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage()));
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const TabNavigator()));
   }
   // 跳转到登录页 不需要返回上一页
   static void goLoginPage() {
+    print('NavigatorUtil._context: ${NavigatorUtil._context} ');
     Navigator.pushReplacement(_context!, MaterialPageRoute(builder: (context) => const LoginPage()));
   }
 }

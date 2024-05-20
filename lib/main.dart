@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hi_cache/flutter_hi_cache.dart';
 import 'package:trip_flutter/dao/login_dao.dart';
 import 'package:trip_flutter/navigator/tab_navigator.dart';
-import 'package:trip_flutter/pages/home_page.dart';
 import 'package:trip_flutter/pages/login_page.dart';
 import 'package:trip_flutter/util/screen_adapter_helper.dart';
 
@@ -29,6 +28,7 @@ class MyApp extends StatelessWidget {
           // 初始化屏幕适配工具
           ScreenHelper.init(context);
           if (snapshot.connectionState == ConnectionState.done) {
+            print('======================TabNavigator======================');
             if(LoginDao.getToken()==null){
               return const LoginPage();
             }else {
