@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:trip_flutter/widget/hi_webview.dart';
+
 
 class MyPage extends StatefulWidget {
   const MyPage({super.key});
@@ -7,18 +9,24 @@ class MyPage extends StatefulWidget {
   State<MyPage> createState() => _MyPageState();
 }
 
-class _MyPageState extends State<MyPage>  {
+class _MyPageState extends State<MyPage> with AutomaticKeepAliveClientMixin {
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("我的"),
-      ),
-      body: Column(
-        children: [
-          const Text("关于我"),
-        ],
+
+      body: HiWebView(
+          url: 'https://m.ctrip.com/webapp/myctrip/',//'https://m.ctrip.com/webapp/myctrip/',
+          title: '我的webview页面',
+          hideAppBar: true,
+          backForbid: true,
+          statusBarColor: '0176ac',
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

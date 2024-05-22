@@ -25,7 +25,6 @@ class TravelCategoryModel {
 class TravelTab {
   ///旅拍类别显示名称
   late String labelName;
-
   ///旅拍类别显搜索名字
   late String groupChannelCode;
 

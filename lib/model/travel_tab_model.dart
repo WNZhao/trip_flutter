@@ -9,6 +9,7 @@ class TravelTabModel {
 
   TravelTabModel.fromJson(Map<String, dynamic> json) {
     total = json['total'];
+
     if (json['list'] != null) {
       list = <TravelItem>[];
       json['list'].forEach((v) {
