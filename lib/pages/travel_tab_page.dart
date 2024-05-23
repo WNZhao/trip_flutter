@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:get/get.dart';
+import 'package:trip_flutter/controller/travel_tab_controller.dart';
 import 'package:trip_flutter/dao/tralel_dao.dart';
 import 'package:trip_flutter/model/travel_tab_model.dart';
 import 'package:trip_flutter/widget/loading_container.dart';
@@ -16,53 +18,61 @@ class TravelTabPage extends StatefulWidget {
   State<TravelTabPage> createState() => _TravelTabPageState();
 }
 
-class _TravelTabPageState extends State<TravelTabPage> with AutomaticKeepAliveClientMixin {
-  List<TravelItem> travelItems = [];
-  int pageIndex = 1;
-  int pageSize = 10;
-  bool _loading = true;
-  final ScrollController _scrollController = ScrollController();
+class _TravelTabPageState extends State<TravelTabPage>
+    with AutomaticKeepAliveClientMixin {
+  late TravelTabController _travelTabController;
 
   get _gridView => MasonryGridView.count(
-        controller: _scrollController,
+        controller: _travelTabController.scrollController,
         crossAxisCount: 2,
         itemBuilder: (BuildContext context, int index) => TravelItemWidget(
-          item: travelItems[index],
+          item: _travelTabController.travelItems[index],
           index: index,
         ),
-        itemCount: travelItems?.length ?? 0,
+        itemCount: _travelTabController.travelItems.length,
       );
+  /// obx不能嵌套
+  /// 在使用obx,getx时，至少要在obx和getx节点下插入一个响应式的变量，否则会报错
+  get _obx => Obx(()=>LoadingContainer(
+        isLoading: _travelTabController.loading.value,
+        child: RefreshIndicator(
+            color: Colors.blue,
+            onRefresh: _handleRefresh,
+            child: MediaQuery.removePadding(
+              removeTop: true,
+              context: context,
+              child: _gridView,
+            )),
+      ),);
+  // 使用GetX 与 getObx等价 和obx不同的是，getx通常监听1个GetxController，而obx可以监听多个
+  get _getx => GetX<TravelTabController>(builder: (controller) {
+        return LoadingContainer(
+          isLoading: controller.loading.value,
+          child: RefreshIndicator(
+              color: Colors.blue,
+              onRefresh: _handleRefresh,
+              child: MediaQuery.removePadding(
+                removeTop: true,
+                context: context,
+                child: _gridView,
+              )),
+        );
+      },init: _travelTabController,);
 
   @override
   void initState() {
+    // 为每一个travelTap创建单独的controller,所以要给它添加一个tag,
+    _travelTabController = Get.put(TravelTabController(widget.groupChannelCode),
+        tag: widget.groupChannelCode);
     // TODO: implement initState
     super.initState();
-    _loadData();
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent && pageIndex<=10) {
-        _loadData(loadMore: true);
-        pageIndex++;
-      }
-    });
-
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context); //AutomaticKeepAliveClientMixin需要调用super.build
     return Scaffold(
-      body: LoadingContainer(
-        isLoading: _loading,
-        child: RefreshIndicator(
-          color: Colors.blue,
-          onRefresh: _loadData,
-          child: MediaQuery.removePadding(
-            removeTop: true,
-            context: context,
-            child: _gridView,
-          )
-        ),
-      ),
+      body: _obx,//_getx,
     );
   }
 
@@ -70,47 +80,15 @@ class _TravelTabPageState extends State<TravelTabPage> with AutomaticKeepAliveCl
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    if (_scrollController != null) {
-      _scrollController.dispose();
-    }
-  }
-
-  Future<void> _loadData({loadMore = false}) async {
-    try{
-      TravelTabModel? model =  await TravelDao.getTravels(widget.groupChannelCode, pageIndex, pageSize);
-      List<TravelItem> items = _filterItems(model?.list);
-      setState(() {
-        if (loadMore) {
-          travelItems?.addAll(items);
-        } else {
-          travelItems = items;
-        }
-        _loading = false;
-      });
-    }catch(e){
-      debugPrint('${e}'); //打印错误
-      setState(() {
-        _loading = false;
-      });
-    }
-  }
-
-  List<TravelItem> _filterItems(List<TravelItem>? list) {
-    if (list == null) {
-      return [];
-    }
-    List<TravelItem> items = [];
-    list.forEach((item) {
-      if (item.article != null) {
-        items.add(item);
-      }
-    });
-    return items;
   }
 
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 
-
+  Future<void> _handleRefresh() async {
+    /// 更新状态
+    await _travelTabController.loadData();
+    return;
+  }
 }
