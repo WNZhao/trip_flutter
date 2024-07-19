@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:trip_flutter/navigator/tab_navigator.dart';
 import 'package:trip_flutter/pages/login_page.dart';
 
+import '../mvvm/routes/app_pages.dart';
 import '../pages/home_page.dart';
 import '../widget/hi_webview.dart';
 
@@ -43,11 +44,13 @@ class NavigatorUtil {
   }
 
   // 跳转到首页 不需要返回上一页
-  static void goHomePage(BuildContext context) {
+  static void goHomePage() {
     // Navigator.pushReplacement(
     //     context, MaterialPageRoute(builder: (context) => const TabNavigator()));
     // 跳转到一下个页面，并不能返回
-    Get.offAll(const TabNavigator());
+    // Get.offAll(const TabNavigator());
+    // 当使用getx 依赖注入后，需要使用路由名跳转，才能确保依赖注入生效
+    Get.offAllNamed(Routes.MAIN);
   }
 
   // 跳转到登录页 不需要返回上一页
@@ -55,7 +58,8 @@ class NavigatorUtil {
     // print('NavigatorUtil._context: ${NavigatorUtil._context} ');
     // Navigator.pushReplacement(
     //     _context!, MaterialPageRoute(builder: (context) => const LoginPage()));
-    Get.off(const LoginPage());
+    // Get.off(const LoginPage());
+    Get.offNamed(Routes.LOGIN);
   }
 
   static jumpH5({

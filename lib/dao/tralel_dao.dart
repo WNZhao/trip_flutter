@@ -13,7 +13,7 @@ import '../util/navigator_util.dart';
 class TravelDao {
   static Future<TravelCategoryModel?> getCategory() async {
     var url = Uri.parse(
-        'http://192.168.2.6:4523/m1/4491700-4138515-default/ft/category');
+        'http://192.168.2.3:4523/m1/4491700-4138515-default/ft/category');
     final response = await http.get(url);
     if (response.statusCode == 200) {
       Utf8Decoder utf8decoder = Utf8Decoder(); // fix 中文乱码
@@ -38,7 +38,7 @@ class TravelDao {
     params['pageIndex'] = pageIndex.toString();
     params['pageSize'] = pageSize.toString();
     var uri = Uri.http(
-        '192.168.2.6:4523', '/m1/4491700-4138515-default/ft/travels', params);
+        '192.168.2.3:4523', '/m1/4491700-4138515-default/ft/travels', params);
     var response = await http.get(uri, headers: hiHeaders());
     if (response.statusCode == 200) {
       Utf8Decoder utf8decoder = Utf8Decoder(); // fix 中文乱码

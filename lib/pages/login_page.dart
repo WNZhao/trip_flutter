@@ -92,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
    try {
      var result = await LoginDao.login(username: username!, password: password!);
      print('登录成功: $result');
-     NavigatorUtil.goHomePage(context);
+     // NavigatorUtil.goHomePage(context);
 
    } catch (e) {
      print('=======================e: $e');

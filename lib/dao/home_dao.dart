@@ -12,7 +12,7 @@ class HomeDao {
     // var url = Uri.parse('https://www.wanandroid.com/article/list/0/json');
     var url = Uri(
       scheme: 'http',
-      host: '192.168.2.6',
+      host: '192.168.2.3',
       path: '/m1/4491700-4138515-default/ft/home',
       port: 4523,
     );

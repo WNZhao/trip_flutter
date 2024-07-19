@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 /// 搜索接口
 class SearchDao{
   static Future<SearchModel?> fetch(String keyword) async {
-    var uri = Uri.parse("http://192.168.2.6:4523/m1/4491700-4138515-default/ft/search?q=" + keyword);
+    var uri = Uri.parse("http://192.168.2.3:4523/m1/4491700-4138515-default/ft/search?q=" + keyword);
     final response = await http.get(uri,headers: hiHeaders());
     if (response.statusCode == 200) {
       Utf8Decoder utf8decoder = const Utf8Decoder(); // fix 中文乱码

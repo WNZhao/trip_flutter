@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hi_cache/flutter_hi_cache.dart';
 import 'package:get/get.dart';
 import 'package:trip_flutter/dao/login_dao.dart';
+import 'package:trip_flutter/mvvm/routes/app_pages.dart';
 import 'package:trip_flutter/navigator/tab_navigator.dart';
 import 'package:trip_flutter/pages/login_page.dart';
 import 'package:trip_flutter/util/screen_adapter_helper.dart';
+
+import 'mvvm/binding/initalBinding.dart';
 
 void main() {
   runApp(const MyApp());
@@ -24,23 +27,12 @@ class MyApp extends StatelessWidget {
         // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: FutureBuilder<dynamic>(
-        future: HiCache.preInit(),
-        builder: (BuildContext context,AsyncSnapshot<dynamic> snapshot) {
-          // 初始化屏幕适配工具
-          ScreenHelper.init(context);
-          if (snapshot.connectionState == ConnectionState.done) {
-            print('======================TabNavigator======================');
-            if(LoginDao.getToken()==null){
-              return const LoginPage();
-            }else {
-              return const TabNavigator();//HomePage();
-            }
-          }
-          return Scaffold(body: Center(child: CircularProgressIndicator(),));
-        },
-      )
-    );
+      initialRoute: AppPages.init,
+      initialBinding: InitialBinding(),
+      getPages: AppPages.routes,
+
+      );
+
   }
 }
 
