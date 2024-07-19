@@ -13,7 +13,7 @@ class LoginDao {
     Map<String, String> params = {};
     params['username'] = username;
     params['password'] = password;
-    var uri = Uri.http('8.130.100.148:8091', '/login');
+    var uri = Uri.https('apifoxmock.com', '/m1/4491700-4138515-default/login');
     final response = await http.post(uri,
         body: jsonEncode(params),
         headers: hiHeaders());
@@ -37,8 +37,9 @@ class LoginDao {
   static logout() async {
      try {
        // 退出登录
-       var uri = Uri.http('8.130.100.148:8091', '/logout');
-       final response = await http.post(uri,
+       var uri = Uri.https('apifoxmock.com', '/m1/4491700-4138515-default/logout');
+       print(uri);
+       final response = await http.get(uri,
            headers: hiHeaders());
        if (response.statusCode == 200) {
          // 删除登录令牌

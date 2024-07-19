@@ -23,7 +23,7 @@ class LoginPage extends GetView<LoginViewModel> {
     return [
       Positioned.fill(
           child: Image.asset(
-        "images/login-bgadmin.jpg",
+        "images/login-bg.jpg",
         fit: BoxFit.cover,
       )),
       Positioned.fill(
