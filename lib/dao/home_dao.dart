@@ -11,10 +11,10 @@ class HomeDao {
   static Future<HomeModel?> fetch() async {
     // var url = Uri.parse('https://www.wanandroid.com/article/list/0/json');
     var url = Uri(
-      scheme: 'http',
-      host: '192.168.2.3',
+      scheme: 'https',
+      host: 'apifoxmock.com',
       path: '/m1/4491700-4138515-default/ft/home',
-      port: 4523,
+      // port: 80,
     );
 
     final response = await http.get(url, headers: hiHeaders());

@@ -93,7 +93,7 @@ class _HomePageState extends State<HomePage>
           if (gridNavModel != null) GridNavWidget(gridNavModel: gridNavModel!),
           if (subNavList != null) SubNavWidget(subNavList: subNavList),
           if(salesBoxModel!=null) SalesBoxWidget(salesBox: salesBoxModel!),
-          _logoutBtn,
+          // _logoutBtn,
           // const SizedBox(
           //   height: 800,
           //   child: const Text("首页内容"),

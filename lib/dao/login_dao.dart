@@ -13,7 +13,7 @@ class LoginDao {
     Map<String, String> params = {};
     params['username'] = username;
     params['password'] = password;
-    var uri = Uri.http('8.130.100.148:8091', '/app/login');
+    var uri = Uri.http('8.130.100.148:8091', '/login');
     final response = await http.post(uri,
         body: jsonEncode(params),
         headers: hiHeaders());
@@ -25,6 +25,7 @@ class LoginDao {
       if (result['code'] == 200 && result['token'] != null) {
         // 保存登录令牌
         _saveToken(result['token']);
+        NavigatorUtil.goHomePage();
         return result;
       } else {
         throw Exception(result['msg']);

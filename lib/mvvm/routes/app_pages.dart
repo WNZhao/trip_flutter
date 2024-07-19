@@ -23,7 +23,7 @@ class AppPages {
       name: Routes.LOGIN,
       page: () => LoginPage(),
       binding: LoginBinding(),
-    ),
+    )
   ];
 
 }
